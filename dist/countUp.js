@@ -129,7 +129,7 @@ var CountUp = /** @class */ (function () {
         if (this.options.separator === '') {
             this.options.useGrouping = false;
         }
-        this.el = (typeof target === 'string') ? document.getElementById(target) : target;
+        this.el = target in 'text' ? target : typeof target === 'string' ? document.getElementById(target) : target;
         if (this.el) {
             this.printValue(this.startVal);
         }
@@ -214,7 +214,9 @@ var CountUp = /** @class */ (function () {
     };
     CountUp.prototype.printValue = function (val) {
         var result = this.formattingFn(val);
-        if (this.el.tagName === 'INPUT') {
+        if (this.el in 'text'){
+          this.el.text = result;
+        }else if (this.el.tagName === 'INPUT') {
             var input = this.el;
             input.value = result;
         }
